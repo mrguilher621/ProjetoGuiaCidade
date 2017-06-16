@@ -10,34 +10,16 @@ using System.Web.Mvc;
 
 namespace ProjetoGuiaCidade.Controllers
 {
-    public class CategoriasController : Controller
+    public class ItensController : Controller
     {
         private EFContext context = new EFContext();
-      
-        // GET: Categorias
+
+        // GET: Itens
         public ActionResult Index()
         {
-            return View(context.Categoria.OrderBy(c => c.Titulo_Categoria));
+            return View(context.Item.OrderBy(i => i.Nome));
         }
 
-        // GET: Categorias/Details/5
-        public ActionResult Details(long? id)
-        {
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Categoria categoria = context.Categoria.Find(id);
-            if (categoria == null)
-            {
-                return HttpNotFound();
-            }
-            return View(categoria);
-
-        }
-
-        // GET: Categorias/Create
         public ActionResult Create()
         {
             return View();
@@ -45,42 +27,57 @@ namespace ProjetoGuiaCidade.Controllers
 
         // POST: Categorias/Create
         [HttpPost]
-        public ActionResult Create(Categoria categoria)
+        public ActionResult Create(Item item)
         {
-            context.Categoria.Add(categoria);
-            context.SaveChanges();  
+            context.Item.Add(item);
+            context.SaveChanges();
             return RedirectToAction("Index");
-            
+
         }
 
-        // GET: Categorias/Edit/5
+        public ActionResult Details(long? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Item item = context.Item.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            return View(item);
+
+        }
+
         public ActionResult Edit(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Categoria categoria = context.Categoria.Find(id);
-            if(categoria == null)
+            Item item = context.Item.Find(id);
+            if (item == null)
             {
                 return HttpNotFound();
             }
-            return View(categoria);
+            return View(item);
         }
 
         // POST: Categorias/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Categoria categoria )
+        public ActionResult Edit(Item item)
         {
             if (ModelState.IsValid)
             {
-                context.Entry(categoria).State = EntityState.Modified;
+                context.Entry(item).State = EntityState.Modified;
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(categoria);
-           
+            return View(item);
+
         }
 
         // GET: Categorias/Delete/5
@@ -91,12 +88,12 @@ namespace ProjetoGuiaCidade.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Categoria categoria = context.Categoria.Find(id);
-            if (categoria == null)
+            Item item = context.Item.Find(id);
+            if (item == null)
             {
                 return HttpNotFound();
             }
-            return View(categoria);
+            return View(item);
         }
 
         // POST: Categorias/Delete/5
@@ -104,8 +101,8 @@ namespace ProjetoGuiaCidade.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(long id)
         {
-            Categoria categoria = context.Categoria.Find(id);
-            context.Categoria.Remove(categoria);
+            Item item = context.Item.Find(id);
+            context.Item.Remove(item);
             context.SaveChanges();
             return RedirectToAction("Index");
         }
